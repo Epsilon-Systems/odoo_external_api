@@ -1,9 +1,9 @@
 {
   "odoo": {
-    "odoouser": "admin",
-    "odoopassword": "9Lh5Z0x*bCqV",
-    "odoodb": "wonderbrands-main-4539884",
-    "odoourl": "https://wonderbrands.odoo.com"
+    "odoouser": "anibal.p@alam.mx",
+    "odoopassword": "Anibal2107",
+    "odoodb": "doppler-13-0-1697307",
+    "odoourl": "https://alamex-mx.odoo.com"
   },
   "psql": {
     "dbuser": "anibal",
