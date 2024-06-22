@@ -16,6 +16,7 @@ today_date = datetime.datetime.now()
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
+#Archivo de configuración - Use config_dev.json cuando los cambios vayan a pruebas
 config_file_name = r'C:\dev\odoo_external_api\config\config.json'
 
 def get_odoo_access():

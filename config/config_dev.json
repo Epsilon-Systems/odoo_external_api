@@ -2,8 +2,8 @@
   "odoo": {
     "odoouser": "anibal.p@alam.mx",
     "odoopassword": "Anibal2107",
-    "odoodb": "alamex-mx-dev-12156704",
-    "odoourl": "https://alamex-mx-dev-12156704.dev.odoo.com"
+    "odoodb": "alamex-mx-test-v1-13310923",
+    "odoourl": "https://alamex-mx-test-v1-13310923.dev.odoo.com"
   },
   "psql": {
     "dbuser": "anibal",
