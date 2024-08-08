@@ -63,9 +63,13 @@ def create_stock_moves():
     print('Conexión con Odoo establecida')
     print('----------------------------------------------------------------')
     try:
-        #progress_bar = tqdm(total=len(invoice_records), desc="Procesando")
         #Define la ubicación y el nombre del archivo de excel
         df = pd.read_excel(r'G:\Mi unidad\Dev\Operaciones\gasolina_operaciones.xlsx', sheet_name='Data')
+        # Lista que contedrá los ids de las transferencias creadas
+        stock_ids = []
+        # Lista que contedrá los nombres transferencias creadas
+        stock_moves = []
+        #Ciclo para crear transferencias
         for index, row in df.iterrows():
             int_date = row['date'].strftime('%Y-%m-%d')
             location_id = row['location_id']
@@ -89,7 +93,7 @@ def create_stock_moves():
                 print(f'No se encontró la ubicación de destino: {location_dest_id}')
                 continue
             #Busca el número de serie de la tarjeta de gasolina
-            serie_id = models.execute_kw(db_name, uid, password, 'stock.lot', 'search_read',[[['name', '=', no_serie]]])  # , {'limit': 1})
+            serie_id = models.execute_kw(db_name, uid, password, 'stock.lot', 'search_read',[[['name', '=', no_serie]]], {'limit': 1})
             lot_id = int(serie_id[0]['id'])
             #Define los datos de la transferencia interna
             print('Definiendo datos de transferencia interna')
@@ -117,11 +121,49 @@ def create_stock_moves():
             context = {'tz': 'America/Mexico_City'}
             # Crear la transferencia
             picking_id = models.execute_kw(db_name, uid, password, 'stock.picking', 'create', [picking_data],{'context': context})
+            picking_data = models.execute_kw(db_name, uid, password, 'stock.picking', 'search_read',[[['id', '=', picking_id]]], {'limit': 1})
+            picking_name = picking_data[0]['name']
+            #Agrega nombres a la tabla stock_moves
+            stock_moves.append(picking_name)
+            #Agrega ids a la tabla stock_ids
+            stock_ids.append(picking_id)
             #Marcar por realizar la transferencia
             picking_upd = models.execute_kw(db_name, uid, password, 'stock.picking', 'action_confirm', [picking_id])
-
+            picking_upd = models.execute_kw(db_name, uid, password, 'stock.picking', 'button_validate', [picking_id])
     except Exception as e:
-       print(f"Error al crear el movimiento de almacén: {e}")
+        print(f"Error al crear la transferencia interna: {e}")
+    try:
+        #Ciclo para crear devoluciones
+        for each in stock_ids:
+            print("Definiendo valores de devolución")
+            move_id = int(each)
+            # Crear el wizard de devolución
+            return_wizard_id = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'create', [{'picking_id': move_id}])
+            search_ret = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read', [[['id', '=', return_wizard_id]]], {'limit': 1})
+            if search_ret:
+                return_wizard = search_ret[0]
+                #Entra a la tabla product_return_moves
+                return_move_ids = return_wizard['product_return_moves']
+                if not return_move_ids:
+                    move_line = models.execute_kw(db_name, uid, password, 'stock.move.line', 'search_read', [[['picking_id', '=', move_id]]])#, {'fields': ['product_id', 'product_uom_qty'], 'limit': 1})
+                    if move_line:
+                        product_id = move_line[0]['product_id'][0]
+                        quantity = move_line[0]['qty_done']
+                        models.execute_kw(db_name, uid, password, 'stock.return.picking.line', 'create', [{
+                            'product_id': product_id,
+                            'quantity': quantity,
+                            'wizard_id': return_wizard_id,
+                            'move_id': move_id,
+                            #'location_id':
+                        }])
+                # Confirmar la devolución
+                result = models.execute_kw(db_name, uid, password,'stock.return.picking', 'create_returns', [return_wizard_id])
+                search_move_name = models.execute_kw(db_name, uid, password, 'stock.picking','search_read', [[['id', '=', result]]])
+
+                print(f"Devolución creada exitosamente para el ID: {move_id}")
+
+    except Exception as a:
+        print(f"Error al crear la devolución: {a}")
 
 if __name__ == "__main__":
     create_stock_moves()
