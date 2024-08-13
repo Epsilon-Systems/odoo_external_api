@@ -62,13 +62,15 @@ def create_stock_moves():
     models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(server_url))
     print('Conexión con Odoo establecida')
     print('----------------------------------------------------------------')
+    # Lista que contedrá los ids de las transferencias creadas
+    stock_ids = []
+    # Lista que contendrá los nombres de transferencias creadas
+    stock_moves = []
+    # Lista que contendrá los nombres de devoluciones creadas
+    stock_return = []
     try:
         #Define la ubicación y el nombre del archivo de excel
         df = pd.read_excel(r'G:\Mi unidad\Dev\Operaciones\gasolina_operaciones.xlsx', sheet_name='Data')
-        # Lista que contedrá los ids de las transferencias creadas
-        stock_ids = []
-        # Lista que contedrá los nombres transferencias creadas
-        stock_moves = []
         #Ciclo para crear transferencias
         for index, row in df.iterrows():
             int_date = row['date'].strftime('%Y-%m-%d')
@@ -140,6 +142,7 @@ def create_stock_moves():
             # Crear el wizard de devolución
             return_wizard_id = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'create', [{'picking_id': move_id}])
             search_ret = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read', [[['id', '=', return_wizard_id]]], {'limit': 1})
+            original_location = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read', [[['id', '=', move_id]]], {'limit': 1})[0]['location_id']
             if search_ret:
                 return_wizard = search_ret[0]
                 #Entra a la tabla product_return_moves
@@ -154,16 +157,30 @@ def create_stock_moves():
                             'quantity': quantity,
                             'wizard_id': return_wizard_id,
                             'move_id': move_id,
-                            #'location_id':
+                            'location_dest_id': int(original_location)
                         }])
-                # Confirmar la devolución
+                # Crear la devolución
                 result = models.execute_kw(db_name, uid, password,'stock.return.picking', 'create_returns', [return_wizard_id])
-                search_move_name = models.execute_kw(db_name, uid, password, 'stock.picking','search_read', [[['id', '=', result]]])
+                # Busca el nombre de la devolución
+                search_move = models.execute_kw(db_name, uid, password, 'stock.picking','search_read', [[['id', '=', int(result)]]])
+                move_name = search_move[0]['name']
+                stock_return.append(move_name)
+                #Buscamos el tabla stock_move_line para ingresar el número de serie
+                search_move_line = models.execute_kw(db_name, uid, password, 'stock.move.line', 'search_read', [[['picking_id', '=', int(result)]]], {'limit': 1})
+                line_id = int(search_move_line[0]['id'][0])
+                line_lot = int(search_move_line[0]['lot_id'][0])
+                if line_lot and line_id:
+                    print(f"Número de serie o lote encontrado: {line_lot}")
+                    upd_move = models.execute_kw(db_name, uid, password, 'account.move', 'write', [[line_id], {'lot_id': line_lot}])
+                    set_quant = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'action_set_quantities_to_reservation', [result])
+                    set_quant = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'button_validate', [result])
 
                 print(f"Devolución creada exitosamente para el ID: {move_id}")
-
     except Exception as a:
         print(f"Error al crear la devolución: {a}")
+
+    print(f"Transferencias creadas: {stock_moves}")
+    print(f"Devoluciones creadas: {stock_return}")
 
 if __name__ == "__main__":
     create_stock_moves()

@@ -73,28 +73,17 @@ def create_stock_moves():
             print(f"Procesando devolución para la transferencia con ID: {move_id}")
 
             # Crear el wizard de devolución
-            return_wizard_id = models.execute_kw(db_name, uid, password,'stock.return.picking', 'create', [{'picking_id': move_id}])
-            search_ret = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read',[[['id', '=', return_wizard_id]]], {'limit': 1})
-            if search_ret:
-                return_wizard = search_ret[0]
-                return_move_ids = return_wizard['product_return_moves']
-                if not return_move_ids:
-                        move_line = models.execute_kw(db_name, uid, password, 'stock.move.line', 'search_read', [[['picking_id', '=', move_id]]])#, {'fields': ['product_id', 'product_uom_qty'], 'limit': 1})
-                        if move_line:
-                            product_id = move_line[0]['product_id'][0]
-                            quantity = move_line[0]['qty_done']
-                            models.execute_kw(db_name, uid, password, 'stock.return.picking.line', 'create', [{
-                                'product_id': product_id,
-                                'quantity': quantity,
-                                'wizard_id': return_wizard_id,
-                                'move_id': move_id,
-                                #'location_id':
-                            }])
-                # Confirmar la devolución
-                result = models.execute_kw(db_name, uid, password,'stock.return.picking', 'create_returns', [return_wizard_id])
-                print(f"Devolución creada exitosamente para el ID: {move_id}")
+            search_move_line = models.execute_kw(db_name, uid, password, 'stock.move.line', 'search_read',[[['picking_id', '=', move_id]]], {'limit': 1})
+            line = int(search_move_line[0]['lot_id'][0])
+            if line:
+                print(f"Número de serie o lote encontrado: {line}")
+                continue
             else:
-                print(f"No se creó la devolución de: {move_id}")
+                print(f"Número de serie o lote no encontrado: {line}")
+                continue
+
+
+            print(search_move_line)
 
     except Exception as e:
         print(f"Error al crear la devolución: {e}")
