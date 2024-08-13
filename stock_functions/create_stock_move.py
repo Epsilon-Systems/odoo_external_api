@@ -142,7 +142,8 @@ def create_stock_moves():
             # Crear el wizard de devolución
             return_wizard_id = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'create', [{'picking_id': move_id}])
             search_ret = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read', [[['id', '=', return_wizard_id]]], {'limit': 1})
-            original_location = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read', [[['id', '=', move_id]]], {'limit': 1})[0]['location_id']
+            original_location = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read', [[['id', '=', move_id]]], {'limit': 1})
+            original_id = original_location[0]['location_id']
             if search_ret:
                 return_wizard = search_ret[0]
                 #Entra a la tabla product_return_moves

@@ -81,8 +81,6 @@ def create_stock_moves():
             else:
                 print(f"Número de serie o lote no encontrado: {line}")
                 continue
-
-
             print(search_move_line)
 
     except Exception as e:
