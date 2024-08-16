@@ -142,14 +142,14 @@ def create_stock_moves():
             # Crear el wizard de devolución
             return_wizard_id = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'create', [{'picking_id': move_id}])
             search_ret = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read', [[['id', '=', return_wizard_id]]], {'limit': 1})
-            original_location = models.execute_kw(db_name, uid, password, 'stock.return.picking', 'search_read', [[['id', '=', move_id]]], {'limit': 1})
-            original_id = original_location[0]['location_id']
+            original_location = models.execute_kw(db_name, uid, password, 'stock.picking', 'search_read', [[['id', '=', move_id]]], {'limit': 1})
+            original_id = original_location[0]['location_id'][0]
             if search_ret:
                 return_wizard = search_ret[0]
                 #Entra a la tabla product_return_moves
                 return_move_ids = return_wizard['product_return_moves']
                 if not return_move_ids:
-                    move_line = models.execute_kw(db_name, uid, password, 'stock.move.line', 'search_read', [[['picking_id', '=', move_id]]])#, {'fields': ['product_id', 'product_uom_qty'], 'limit': 1})
+                    move_line = models.execute_kw(db_name, uid, password, 'stock.move.line', 'search_read', [[['picking_id', '=', move_id]]])
                     if move_line:
                         product_id = move_line[0]['product_id'][0]
                         quantity = move_line[0]['qty_done']
@@ -158,7 +158,7 @@ def create_stock_moves():
                             'quantity': quantity,
                             'wizard_id': return_wizard_id,
                             'move_id': move_id,
-                            'location_dest_id': int(original_location)
+                            'location_id': int(original_location)
                         }])
                 # Crear la devolución
                 result = models.execute_kw(db_name, uid, password,'stock.return.picking', 'create_returns', [return_wizard_id])
