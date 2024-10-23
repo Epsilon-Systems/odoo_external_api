@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/proofs_functions" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/cron task" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/invoices_functions" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/logs" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/python" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />

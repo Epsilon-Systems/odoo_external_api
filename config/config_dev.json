@@ -1,9 +1,9 @@
 {
   "odoo": {
-    "odoouser": "admin",
-    "odoopassword": "admin",
-    "odoodb": "busan",
-    "odoourl": "http://localhost:8010"
+    "odoouser": "anibal.p@alam.mx",
+    "odoopassword": "Anibal2107",
+    "odoodb": "alamex-mx-dev-15028259",
+    "odoourl": "https://alamex-mx-dev-15028259.dev.odoo.com"
   },
   "psql": {
     "dbuser": "anibal",

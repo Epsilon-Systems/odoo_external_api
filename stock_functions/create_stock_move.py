@@ -157,11 +157,12 @@ def create_stock_moves():
                             'product_id': product_id,
                             'quantity': quantity,
                             'wizard_id': return_wizard_id,
-                            'move_id': move_id,
-                            'location_id': int(original_location)
+                            'move_id': move_id
+                            #'location_id': [(4, original_location)]
                         }])
                 # Crear la devolución
                 result = models.execute_kw(db_name, uid, password,'stock.return.picking', 'create_returns', [return_wizard_id])
+
                 # Busca el nombre de la devolución
                 search_move = models.execute_kw(db_name, uid, password, 'stock.picking','search_read', [[['id', '=', int(result)]]])
                 move_name = search_move[0]['name']
