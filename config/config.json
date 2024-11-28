@@ -2,8 +2,8 @@
   "odoo": {
     "odoouser": "anibal.p@alam.mx",
     "odoopassword": "Anibal2107",
-    "odoodb": "doppler-13-0-1697307",
-    "odoourl": "https://alamex-mx.odoo.com"
+    "odoodb": "odoo13",
+    "odoourl": "https://www.alam.mx"
   },
   "psql": {
     "dbuser": "anibal",
