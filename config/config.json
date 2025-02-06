@@ -4,17 +4,5 @@
     "odoopassword": "Anibal2107",
     "odoodb": "odoo13_backup_2024_12_14_09_55",
     "odoourl": "https://www.alam.mx"
-  },
-  "psql": {
-    "dbuser": "anibal",
-    "dbpassword": "Tuy0TEZOcXAwBgtb",
-    "dbhost": "wonderbrands1.cuwd36ifbz5t.us-east-1.rds.amazonaws.com",
-    "database": "somos_reyes"
-  },
-  "email": {
-    "smtp_server": "smtp.gmail.com",
-    "smtp_port": 587,
-    "smtp_username": "anibal@wonderbrands.co",
-    "smtp_password": "iwvrlrxkiydxueer"
   }
 }

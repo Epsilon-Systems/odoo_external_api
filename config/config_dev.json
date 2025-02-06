@@ -4,17 +4,5 @@
     "odoopassword": "Anibal2107",
     "odoodb": "alamex-mx-dev-15028259",
     "odoourl": "https://alamex-mx-dev-15028259.dev.odoo.com"
-  },
-  "psql": {
-    "dbuser": "anibal",
-    "dbpassword": "Tuy0TEZOcXAwBgtb",
-    "dbhost": "wonderbrands1.cuwd36ifbz5t.us-east-1.rds.amazonaws.com",
-    "database": "somos_reyes"
-  },
-  "email": {
-    "smtp_server": "smtp.gmail.com",
-    "smtp_port": 587,
-    "smtp_username": "anibal@wonderbrands.co",
-    "smtp_password": "iwvrlrxkiydxueer"
   }
 }
