@@ -38,7 +38,7 @@ def get_odoo_access():
         config = json.load(config_file)
     return config['odoo']
 
-def fix_uuid_invoices():
+def stamp_invoices():
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     # odoo
@@ -53,19 +53,16 @@ def fix_uuid_invoices():
     print('Conexión con Odoo establecida')
     print('----------------------------------------------------------------')
     # Lista que contedrá los ids de las transferencias creadas
-    stock_ids = []
-    inv_id = 261563
-    uuid_value = 'D7F476AD-43A1-53DA-8AE3-FC89C532A699'
+    inv_id = 260007
     try:
         invoice = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['id', '=', inv_id]]])[0]
         inv_name = invoice['name']
         inv_id_real = invoice['id']
-        uuid = invoice['l10n_mx_edi_cfdi_uuid']
         print(f"Se encontró la factura {inv_name} con ID: {inv_id_real}")
         print('----------------------------------------------------------------')
-        print('Modificando')
+        print('Publicando')
         print('----------------------------------------------------------------')
-        upd_uuid = models.execute_kw(db_name, uid, password, 'account.move', 'write', [[inv_id], {'l10n_mx_edi_cfdi_uuid': True}])
+        upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move','action_post', [inv_id_real])
         print(f'La factura {inv_name} se ha actualizado correctamente')
         print('----------------------------------------------------------------')
         print('Verificando')
@@ -81,7 +78,7 @@ def fix_uuid_invoices():
         print(f"Error al actualizar la factura: {e}")
 
 if __name__ == "__main__":
-    fix_uuid_invoices()
+    stamp_invoices()
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duración del script: {duration}')

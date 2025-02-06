@@ -1,4 +1,5 @@
 import json
+import logging
 import jsonrpc
 import jsonrpclib
 import getpass
@@ -10,14 +11,16 @@ import time
 import datetime
 
 print('================================================================')
-print('SCRIPT DE TAREAS PLANIFICADAS')
+print('SCRIPT DE TIMBRADO DE FACTURAS')
 print('================================================================')
+config_file_name = r'C:\dev\odoo_external_api\config\config.json'
+log_file_name = r'C:\dev\odoo_external_api\logs\console.log'
 today_date = datetime.datetime.now()
 dir_path = os.path.dirname(os.path.realpath(__file__))
-print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
+logging.basicConfig(filename=log_file_name, level=logging.INFO)
+logging.debug('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
 #Archivo de configuración - Use config_dev.json cuando los cambios vayan a pruebas
-config_file_name = r'C:\dev\odoo_external_api\config\config.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -38,19 +41,22 @@ def fetchmail_task():
     models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(server_url))
     print('Conexión con Odoo establecida')
     print('----------------------------------------------------------------')
+    logging.info(f'Odoo Connection Established {today_date}')
     task_mail_in = 4
     task_mail_out = 2
     try:
         print(f"Tarea")
         print(f"Mail: Fetchmail Service")
+        logging.info(f'Fetchmail Service executing {today_date}')
         #task = models.execute_kw(db_name, uid, password, 'ir.cron', 'search_read', [[['id', '=', task_mail_in]]])[0]
         execute_task_in = models.execute_kw(db_name, uid, password, 'ir.cron', 'method_direct_trigger', [task_mail_in])
         print(f"Tarea")
         print(f"Mail: Gestor de colas de email")
+        logging.info(f'Mail Queue Manager executing {today_date}')
         execute_task_out = models.execute_kw(db_name, uid, password, 'ir.cron', 'method_direct_trigger', [task_mail_out])
         print('----------------------------------------------------------------')
     except Exception as e:
-       print(f"Error al ejecutar la tarea automática: {e}")
+       logging.error(f"Error executing automatic task: {e}")
 
 if __name__ == "__main__":
     fetchmail_task()
@@ -59,3 +65,4 @@ if __name__ == "__main__":
     print(f'Duración del script: {duration}')
     print('Listo')
     print('Este arroz ya se coció :)')
+    logging.info(f'The script ended with a duration of {duration}')

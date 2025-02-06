@@ -1,1 +1,5 @@
-2024-10-22 17:07:55.740200: script ejecutado correctamente2024-10-22 17:57:43.129555: script ejecutado correctamente2024-10-22 17:57:49.207268: script ejecutado correctamente
+INFO:root:Conectando API Odoo
+INFO:root:Odoo Connection Established 2025-02-06 15:52:54.564992
+INFO:root:Fetchmail Service executing 2025-02-06 15:52:54.564992
+INFO:root:Mail Queue Manager executing 2025-02-06 15:52:54.564992
+INFO:root:The script ended with a duration of 0:00:03.286249
