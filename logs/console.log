@@ -1,5 +1,18 @@
-INFO:root:Conectando API Odoo
-INFO:root:Odoo Connection Established 2025-02-06 15:52:54.564992
-INFO:root:Fetchmail Service executing 2025-02-06 15:52:54.564992
-INFO:root:Mail Queue Manager executing 2025-02-06 15:52:54.564992
-INFO:root:The script ended with a duration of 0:00:03.286249
+INFO:root:Fecha:2025-02-06 17:16:08
+INFO:root:Odoo Connection Established 2025-02-06 17:16:08.753997
+INFO:root:Fetchmail Service executing 2025-02-06 17:16:08.753997
+INFO:root:Mail Queue Manager executing 2025-02-06 17:16:08.753997
+INFO:root:The script ended with a duration of 0:00:04.639897
+INFO:root:----------------------------------------------------------------
+INFO:root:Fecha:2025-02-06 17:16:32
+INFO:root:Odoo Connection Established 2025-02-06 17:16:32.742712
+INFO:root:Fetchmail Service executing 2025-02-06 17:16:32.742712
+INFO:root:Mail Queue Manager executing 2025-02-06 17:16:32.742712
+INFO:root:The script ended with a duration of 0:00:03.250707
+INFO:root:----------------------------------------------------------------
+INFO:root:Fecha:2025-02-06 17:16:53
+INFO:root:Odoo Connection Established 2025-02-06 17:16:53.625901
+INFO:root:Fetchmail Service executing 2025-02-06 17:16:53.625901
+INFO:root:Mail Queue Manager executing 2025-02-06 17:16:53.625901
+INFO:root:The script ended with a duration of 0:00:02.718069
+INFO:root:----------------------------------------------------------------

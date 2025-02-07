@@ -18,7 +18,7 @@ log_file_name = r'C:\dev\odoo_external_api\logs\console.log'
 today_date = datetime.datetime.now()
 dir_path = os.path.dirname(os.path.realpath(__file__))
 logging.basicConfig(filename=log_file_name, level=logging.INFO)
-logging.debug('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
+logging.info('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
 #Archivo de configuración - Use config_dev.json cuando los cambios vayan a pruebas
 
@@ -66,3 +66,4 @@ if __name__ == "__main__":
     print('Listo')
     print('Este arroz ya se coció :)')
     logging.info(f'The script ended with a duration of {duration}')
+    logging.info(f'----------------------------------------------------------------')
