@@ -1,0 +1,17 @@
+{
+  "pg": {
+    "host": "localhost",
+    "port": 5432,
+    "user": "odoo",
+    "password": "odoo"
+  },
+  "db_a": "gaqsa_12",
+  "db_b": "gaqsa_17",
+  "mode": "selected",
+  "selected_models": ["res.company", "res.partner", "product.template", "account.journal", "stock.picking", "stock.location", "stock.warehouse", "stock.picking.type", "stock.rule", "ir.config_parameter"],
+  "exclude_models_like": ["ir.logging", "mail.message", "mail.mail", "bus.presence"],
+  "max_rows_per_model": 20000,
+  "sample_diff_rows": 200,
+  "diff_cells_limit": 5000,
+  "output_xlsx": "odoo_db_diff.xlsx"
+}
