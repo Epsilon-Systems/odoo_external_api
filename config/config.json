@@ -1,7 +1,7 @@
 {
   "odoo": {
-    "odoouser": "anibal.p@alam.mx",
-    "odoopassword": "Anibal2107",
+    "odoouser": "admin.cuentas@alam.mx",
+    "odoopassword": "Alamex2025_#.",
     "odoodb": "odoo13_backup_2024_12_14_09_55",
     "odoourl": "https://www.alam.mx"
   }
