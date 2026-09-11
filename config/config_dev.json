@@ -1,8 +1,8 @@
 {
   "odoo": {
-    "odoouser": "anibal.p@alam.mx",
-    "odoopassword": "Anibal2107",
-    "odoodb": "alamex-mx-dev-15028259",
-    "odoourl": "https://alamex-mx-dev-15028259.dev.odoo.com"
+    "odoouser": "correo@correo.mx",
+    "odoopassword": "awesomepassword",
+    "odoodb": "yourdb",
+    "odoourl": "https://test.odoo.com"
   }
 }
