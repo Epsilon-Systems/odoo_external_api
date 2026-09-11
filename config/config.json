@@ -1,8 +1,8 @@
 {
   "odoo": {
-    "odoouser": "admin.cuentas@alam.mx",
-    "odoopassword": "Alamex2025_#.",
-    "odoodb": "odoo13_backup_2024_12_14_09_55",
-    "odoourl": "https://www.alam.mx"
+    "odoouser": "admin.cuentas@mail.mx",
+    "odoopassword": "awesomepassword#.",
+    "odoodb": "yourdb",
+    "odoourl": "https://www.yourweb.mx"
   }
 }
